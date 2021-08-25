@@ -6,7 +6,6 @@ exports.usersControllers = (req, res) => {
     addUsers('Roma')
     res.write(JSON.stringify({success: true}))
   } else {// res.write(`[{"id": 1, "name": "Vitaliy"}, {"id": 2, "name": "Yulia"}]`)
-    // res.write(JSON.stringify(getUsers()))
-
+    res.write(JSON.stringify(getUsers()))
   }
 }

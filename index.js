@@ -7,7 +7,6 @@ let http = require('http');
 const {usersControllers} = require("./usersController");
 const {addUsers} = require("./repository");
 // like => import http from 'http'
-const {getUsers} = require("./repository");
 
 const cors = (res, req) => {
   // Set CORS headers
@@ -41,8 +40,6 @@ let server = http.createServer((req, res) => {
       <script>
         alert("Yo man")
       </script>`)*/
-  res.end();
 })
 
 server.listen(3333);
-console.log(http)

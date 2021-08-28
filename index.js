@@ -1,45 +1,29 @@
-console.log("hello Vitaliy");
-//alert('hello') // alert don't work in nodeJs
+const cors = require('cors')
+const express = require('express')
+const users = require("./users-router");
+const bodyParser = require('body-parser');
 
-// create server
+const app = express()
+const port = 3333
+app.use(cors())
 
-let http = require('http');
-const {usersControllers} = require("./usersController");
-const {addUsers} = require("./repository");
-// like => import http from 'http'
+// parse application/x-www-form-urlencoded
+// use - middleware
+app.use(bodyParser.urlencoded({extended: false}))
 
-const cors = (res, req) => {
-  // Set CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Request-Method', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
-  res.setHeader('Access-Control-Allow-Headers', '*');
-  if (req.method === 'OPTIONS') {
-    res.writeHead(200);
-    res.end();
-    return true;
-  }
-  return false
-}
+// parse application/json
+app.use(bodyParser.json())
 
-let server = http.createServer((req, res) => {
-  if (cors(res, req)) return;
+app.use("/users", users);
 
-  switch (req.url) {
-    case "/users":
-      usersControllers(req, res)
-      break;
-    case "/tasks":
-      res.write(`tasks`)
-      break;
-    default:
-      res.write(`page not found`)
-  }
-
-  /*  res.write(`<h1>server works</h1>
-      <script>
-        alert("Yo man")
-      </script>`)*/
+app.get('/tasks', (req, res) => {
+  res.send('tasks')
 })
 
-server.listen(3333);
+app.use((req, res) => {
+  res.send(404)
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})
